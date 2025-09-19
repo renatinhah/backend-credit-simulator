@@ -2,10 +2,14 @@ package com.github.renatinhah.backend_credit_simulator.dto;
 
 import java.math.BigDecimal;
 
-public class LoanSimulationResponse {
+public class LoanSimulationDetails {
     private BigDecimal totalAmountToPay;
-    private BigDecimal monthlyInstallment;
     private BigDecimal totalInterest;
+
+    public LoanSimulationDetails(BigDecimal totalAmountToPay, BigDecimal totalInterest) {
+        this.totalAmountToPay = totalAmountToPay;
+        this.totalInterest = totalInterest;
+    }
 
     public BigDecimal getTotalAmountToPay() {
         return totalAmountToPay;
@@ -21,13 +25,5 @@ public class LoanSimulationResponse {
 
     public void setTotalInterest(BigDecimal totalInterest) {
         this.totalInterest = totalInterest;
-    }
-
-    public BigDecimal getMonthlyInstallment() {
-        return monthlyInstallment;
-    }
-
-    public void setMonthlyInstallment(BigDecimal monthlyInstallment) {
-        this.monthlyInstallment = monthlyInstallment;
     }
 }
