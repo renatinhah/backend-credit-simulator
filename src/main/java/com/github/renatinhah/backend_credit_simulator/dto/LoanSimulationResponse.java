@@ -1,33 +1,15 @@
 package com.github.renatinhah.backend_credit_simulator.dto;
 
+import lombok.Builder;
+import lombok.Data;
+
 import java.math.BigDecimal;
 
+@Data
+@Builder
 public class LoanSimulationResponse {
     private BigDecimal totalAmountToPay;
     private BigDecimal monthlyInstallment;
     private BigDecimal totalInterest;
 
-    public BigDecimal getTotalAmountToPay() {
-        return totalAmountToPay;
-    }
-
-    public void setTotalAmountToPay(BigDecimal totalAmountToPay) {
-        this.totalAmountToPay = totalAmountToPay;
-    }
-
-    public BigDecimal getTotalInterest() {
-        return totalInterest;
-    }
-
-    public void setTotalInterest(BigDecimal totalInterest) {
-        this.totalInterest = totalInterest;
-    }
-
-    public BigDecimal getMonthlyInstallment() {
-        return monthlyInstallment;
-    }
-
-    public void setMonthlyInstallment(BigDecimal monthlyInstallment) {
-        this.monthlyInstallment = monthlyInstallment;
-    }
 }

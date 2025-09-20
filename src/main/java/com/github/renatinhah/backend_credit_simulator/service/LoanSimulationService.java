@@ -57,16 +57,18 @@ public class LoanSimulationService {
         BigDecimal totalInterest = totalAmountToPay.subtract(request.getLoanAmount());
         totalInterest = totalInterest.setScale(2, RoundingMode.HALF_UP);
 
-        return new LoanSimulationDetails(totalAmountToPay, totalInterest);
+        return LoanSimulationDetails.builder()
+                .totalAmountToPay(totalAmountToPay)
+                .totalInterest(totalInterest)
+                .build();
     }
 
     private LoanSimulationResponse createLoanSimulationResponse(BigDecimal monthlyPayment,LoanSimulationDetails details) {
-        LoanSimulationResponse response = new LoanSimulationResponse();
-        response.setTotalAmountToPay(details.getTotalAmountToPay());
-        response.setMonthlyInstallment(monthlyPayment.setScale(2, RoundingMode.HALF_UP));
-        response.setTotalInterest(details.getTotalInterest());
-
-        return response;
+        return LoanSimulationResponse.builder()
+                .totalAmountToPay(details.getTotalAmountToPay())
+                .monthlyInstallment(monthlyPayment.setScale(2, RoundingMode.HALF_UP))
+                .totalInterest(details.getTotalInterest())
+                .build();
     }
 
 }
