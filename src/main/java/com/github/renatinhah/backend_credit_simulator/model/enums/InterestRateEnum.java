@@ -1,5 +1,6 @@
 package com.github.renatinhah.backend_credit_simulator.model.enums;
 
+import com.github.renatinhah.backend_credit_simulator.exceptions.AgeNotSupportedException;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -28,7 +29,7 @@ public enum InterestRateEnum {
                 return rate;
             }
         }
-        throw new IllegalArgumentException("Faixa etaria não encontarda: " + age);
+        throw new AgeNotSupportedException(age);
     }
 
 

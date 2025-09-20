@@ -3,6 +3,7 @@ package com.github.renatinhah.backend_credit_simulator.service;
 import com.github.renatinhah.backend_credit_simulator.dto.LoanSimulationDetails;
 import com.github.renatinhah.backend_credit_simulator.dto.LoanSimulationRequest;
 import com.github.renatinhah.backend_credit_simulator.dto.LoanSimulationResponse;
+import com.github.renatinhah.backend_credit_simulator.exceptions.LoanSimulationException;
 import com.github.renatinhah.backend_credit_simulator.model.enums.InterestRateEnum;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ import java.time.Period;
 public class LoanSimulationService {
     public static final int MONTHS_IN_YEAR = 12;
 
-    public LoanSimulationResponse simulate(LoanSimulationRequest request) {
+    public LoanSimulationResponse simulate(LoanSimulationRequest request) throws LoanSimulationException {
         try {
             int age = calculateAge(request.getBirthDate());
             InterestRateEnum rate = InterestRateEnum.getRateByAge(age);
@@ -27,9 +28,8 @@ public class LoanSimulationService {
 
             return createLoanSimulationResponse(monthlyPayment, details);
         } catch (Exception e) {
-            System.err.println("Erro: " + e.getMessage());
+            throw new LoanSimulationException(request.getLoanAmount(), request.getPaymentTermInMonths());
         }
-        return null;
     }
 
     private int calculateAge(LocalDate birthDate) {
