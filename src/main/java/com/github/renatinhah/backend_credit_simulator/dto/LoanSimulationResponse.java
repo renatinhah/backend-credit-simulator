@@ -11,5 +11,4 @@ public class LoanSimulationResponse {
     private BigDecimal totalAmountToPay;
     private BigDecimal monthlyInstallment;
     private BigDecimal totalInterest;
-
 }
