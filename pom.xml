@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.github.renatinhah</groupId>
 	<artifactId>backend-credit-simulator</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-BETA</version>
 	<name>Backend Credit Simulator</name>
 	<description>API em Spring Boot para simulação de crédito com cálculo de parcelas fixas e juros por faixa etária.</description>
 	<url/>

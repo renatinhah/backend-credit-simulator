@@ -11,7 +11,6 @@ Opteipor pela **Arquitetura em Camadas (Layered Architecture)**
 As camadas principais são:
 - **Controller (interface)** – entrada de requisições REST (Spring Boot)
 - **Service (aplicação/negócio)** – contém a lógica principal da simulação
-- **Repository (infraestrutura/persistência)** – abstrai o acesso a dados
 - **Domain (modelo)** – concentra as entidades e regras de negócio centrais
 
 ## Consequências

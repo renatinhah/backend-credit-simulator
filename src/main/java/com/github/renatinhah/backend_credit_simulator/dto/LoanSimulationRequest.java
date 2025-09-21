@@ -29,7 +29,7 @@ public class LoanSimulationRequest {
     private int paymentTermInMonths;
 
     @DecimalMin(value = "0.01", message = "Variable interest rate must be greater than 0.01")
-    @Schema(description = "Optional annual variable interest rate", example = "4.5")
+    @Schema(description = "Optional annual variable interest rate", example = "0.045")
     private BigDecimal variableInterestRate;
 }
 

@@ -1,4 +1,4 @@
-# ADR 0001 – Definição da fonte de regras de idade e juros
+# ADR 0002 – Definição da fonte de regras de idade e juros
 
 ## Contexto
 O sistema de simulação de crédito exige regras de intervalo de idade e percentuais de juros.  
@@ -9,7 +9,7 @@ Optei por implementar as regras em um `enum` Java, pois:
 - Permite validação simples e rápida
 - Acelera o tempo de desenvolvimento
 - Facilita testes unitários iniciais
-te a 
+
 ## Consequências
 - ✅ Desenvolvimento mais rápido para atender o prazo
 - ✅ Código simples e legível
