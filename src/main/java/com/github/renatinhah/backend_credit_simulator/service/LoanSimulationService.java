@@ -19,7 +19,6 @@ public class LoanSimulationService {
     public static final int MONTHS_IN_YEAR = 12;
     private static final MathContext MATH_CONTEXT = new MathContext(34, RoundingMode.HALF_UP);
 
-
     public LoanSimulationResponse simulate(LoanSimulationRequest request) throws LoanSimulationException {
         try {
             BigDecimal annualRate;
