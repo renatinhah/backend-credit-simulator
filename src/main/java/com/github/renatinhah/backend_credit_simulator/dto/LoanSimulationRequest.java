@@ -18,14 +18,19 @@ public class LoanSimulationRequest {
     @Schema(description = "Loan amount", example = "10000")
     private BigDecimal loanAmount;
 
-    @Past(message = "Birth date must be in the past")
     @NotNull(message = "Birth date is required")
+    @Past(message = "Birth date must be in the past")
     @Schema(description = "Customer birth date", example = "2000-09-01")
     private LocalDate birthDate;
 
+    @NotNull(message = "Payment term is required")
     @Min(value = 1, message = "Payment term must be at least 1 month")
     @Schema(description = "Number of installments", example = "12")
     private int paymentTermInMonths;
+
+    @DecimalMin(value = "0.01", message = "Variable interest rate must be greater than 0.01")
+    @Schema(description = "Optional annual variable interest rate", example = "4.5")
+    private BigDecimal variableInterestRate;
 }
 
 

@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,8 +39,8 @@ class LoanSimulationServiceTest {
         validRequest.setBirthDate(TODAY.minusYears(25));
 
         BigDecimal expectedMonthlyInstallment = new BigDecimal("856.07").setScale(2, RoundingMode.HALF_UP);
-        BigDecimal expectedTotalInterest = new BigDecimal("272.90").setScale(2, RoundingMode.HALF_UP);
-        BigDecimal expectedTotalAmountToPay = new BigDecimal("10272.90").setScale(2, RoundingMode.HALF_UP);
+        BigDecimal expectedTotalInterest = new BigDecimal("272.84").setScale(2, RoundingMode.HALF_UP);
+        BigDecimal expectedTotalAmountToPay = new BigDecimal("10272.84").setScale(2, RoundingMode.HALF_UP);
 
         LoanSimulationResponse response = loanSimulationService.simulate(validRequest);
 
@@ -54,8 +55,8 @@ class LoanSimulationServiceTest {
         validRequest.setBirthDate(TODAY.minusYears(35));
 
         BigDecimal expectedMonthlyInstallment = new BigDecimal("846.94").setScale(2, RoundingMode.HALF_UP);
-        BigDecimal expectedTotalInterest = new BigDecimal("163.24").setScale(2, RoundingMode.HALF_UP);
-        BigDecimal expectedTotalAmountToPay = new BigDecimal("10163.24").setScale(2, RoundingMode.HALF_UP);
+        BigDecimal expectedTotalInterest = new BigDecimal("163.28").setScale(2, RoundingMode.HALF_UP);
+        BigDecimal expectedTotalAmountToPay = new BigDecimal("10163.28").setScale(2, RoundingMode.HALF_UP);
 
         LoanSimulationResponse response = loanSimulationService.simulate(validRequest);
 
@@ -70,8 +71,8 @@ class LoanSimulationServiceTest {
         validRequest.setBirthDate(TODAY.minusYears(41));
 
         BigDecimal expectedMonthlyInstallment = new BigDecimal("842.39").setScale(2, RoundingMode.HALF_UP);
-        BigDecimal expectedTotalInterest = new BigDecimal("108.66").setScale(2, RoundingMode.HALF_UP);
-        BigDecimal expectedTotalAmountToPay = new BigDecimal("10108.66").setScale(2, RoundingMode.HALF_UP);
+        BigDecimal expectedTotalInterest = new BigDecimal("108.68").setScale(2, RoundingMode.HALF_UP);
+        BigDecimal expectedTotalAmountToPay = new BigDecimal("10108.68").setScale(2, RoundingMode.HALF_UP);
 
         LoanSimulationResponse response = loanSimulationService.simulate(validRequest);
 
@@ -86,14 +87,33 @@ class LoanSimulationServiceTest {
         validRequest.setBirthDate(TODAY.minusYears(61));
 
         BigDecimal expectedMonthlyInstallment = new BigDecimal("851.50").setScale(2, RoundingMode.HALF_UP);
-        BigDecimal expectedTotalInterest = new BigDecimal("217.99").setScale(2, RoundingMode.HALF_UP);
-        BigDecimal expectedTotalAmountToPay = new BigDecimal("10217.99").setScale(2, RoundingMode.HALF_UP);
+        BigDecimal expectedTotalInterest = new BigDecimal("218.00").setScale(2, RoundingMode.HALF_UP);
+        BigDecimal expectedTotalAmountToPay = new BigDecimal("10218.00").setScale(2, RoundingMode.HALF_UP);
 
         LoanSimulationResponse response = loanSimulationService.simulate(validRequest);
 
         assertEquals(expectedMonthlyInstallment, response.getMonthlyInstallment());
         assertEquals(expectedTotalInterest, response.getTotalInterest());
         assertEquals(expectedTotalAmountToPay, response.getTotalAmountToPay());
+    }
+
+    @Test
+    void simulateLoan_withVariableInterestRate_shouldCalculateCorrectly() throws LoanSimulationException {
+        // Arrange
+        LoanSimulationRequest request = new LoanSimulationRequest();
+        request.setLoanAmount(new BigDecimal("10000"));
+        request.setBirthDate(LocalDate.of(2000, 1, 1));
+        request.setPaymentTermInMonths(12);
+        request.setVariableInterestRate(new BigDecimal("0.035"));
+
+        // Act
+        LoanSimulationResponse response = loanSimulationService.simulate(request);
+
+        // Assert
+        assertThat(response).isNotNull();
+        assertThat(response.getMonthlyInstallment()).isEqualByComparingTo(new BigDecimal("849.22"));
+        assertThat(response.getTotalAmountToPay()).isEqualByComparingTo(new BigDecimal("10190.64"));
+        assertThat(response.getTotalInterest()).isEqualByComparingTo(new BigDecimal("190.64"));
     }
 
     @Test

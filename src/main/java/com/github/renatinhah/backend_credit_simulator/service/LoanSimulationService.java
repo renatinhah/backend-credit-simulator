@@ -12,17 +12,25 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Objects;
 
 @Service
 public class LoanSimulationService {
     public static final int MONTHS_IN_YEAR = 12;
+    private static final MathContext MATH_CONTEXT = new MathContext(34, RoundingMode.HALF_UP);
+
 
     public LoanSimulationResponse simulate(LoanSimulationRequest request) throws LoanSimulationException {
         try {
-            int age = calculateAge(request.getBirthDate());
-            InterestRateEnum rate = InterestRateEnum.getRateByAge(age);
+            BigDecimal annualRate;
+            if (Objects.isNull(request.getVariableInterestRate())) {
+                int age = calculateAge(request.getBirthDate());
+                annualRate = new BigDecimal(InterestRateEnum.getRateByAge(age).getRate());
+            } else {
+                annualRate = request.getVariableInterestRate();
+            }
 
-            BigDecimal monthlyPayment = calculateInstallment(request, new BigDecimal(rate.rate));
+            BigDecimal monthlyPayment = calculateInstallment(request, annualRate);
 
             LoanSimulationDetails details = calculateSimulationDetails(request, monthlyPayment);
 
@@ -37,18 +45,23 @@ public class LoanSimulationService {
     }
 
     private BigDecimal calculateInstallment(LoanSimulationRequest request, BigDecimal rate) {
-        BigDecimal monthRate = rate.divide(new BigDecimal(MONTHS_IN_YEAR), RoundingMode.HALF_UP);
+        BigDecimal monthRate = rate.divide(new BigDecimal(MONTHS_IN_YEAR), MATH_CONTEXT);
 
         BigDecimal loanAmount = request.getLoanAmount();
         int numberOfPayments = request.getPaymentTermInMonths();
+        BigDecimal sumRateOne = BigDecimal.ONE.add(monthRate, MATH_CONTEXT); // (1 + r)
 
-        BigDecimal sumRateOne = new BigDecimal(1).add(monthRate); // (1 + r)
-        BigDecimal potencia = sumRateOne.pow(-numberOfPayments, MathContext.DECIMAL128); // (1 + r)^(-n)
-        BigDecimal divisor = new BigDecimal(1).subtract(potencia); // 1 - (1 + r)^(-n)
-        BigDecimal dividend = loanAmount.multiply(monthRate); // (PV * r)
+        // (1 + r)^(-n)   ->     1 / (1 + r)^n
+        BigDecimal inversePower = BigDecimal.ONE.divide(
+                sumRateOne.pow(numberOfPayments, MATH_CONTEXT),
+                MATH_CONTEXT
+        );
+        BigDecimal divisor = BigDecimal.ONE.subtract(inversePower, MATH_CONTEXT); // 1 - (1 + r)^(-n)
+        BigDecimal dividend = loanAmount.multiply(monthRate, MATH_CONTEXT); // PV * r
 
-        return dividend.divide(divisor, MathContext.DECIMAL128); // (PV * r) / (1 - (1 + r)^(-n))
+        return dividend.divide(divisor, 2, RoundingMode.HALF_UP);
     }
+
 
     private LoanSimulationDetails calculateSimulationDetails(LoanSimulationRequest request, BigDecimal monthlyPayment) {
         BigDecimal totalAmountToPay = monthlyPayment.multiply(new BigDecimal(request.getPaymentTermInMonths()));

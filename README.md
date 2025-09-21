@@ -52,7 +52,7 @@ Onde:
 
 
 # 📄 Endpoint da API
-![Exemplo de requisição e resposta no Postman](docs/imagens/endpoint.png)
+![Exemplo de requisição e resposta no Postman](docs/imagens/endpoint_taxa_variavel.png)
 
 # 🧪 Testes e Qualidade
 - Testes unitários cobrindo regras de negócio e cálculos financeiros
