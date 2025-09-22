@@ -1,8 +1,8 @@
 # Arquitetura Proposta
 
-![Diagrama em camadas](docs/imagens/diagrama_em_camadas.png)
+![Exemplo Diagrama em camadas](../imagens/diagrama_em_camadas.png)
 
-![Diagrama em camadas mais completo](docs/imagens/Diagrama completo _ Mermaid Chart-2025-09-22-150525.png)
+![Exemplo Diagrama em camadas mais completo](../imagens/diagrama_camadas_completo.png)
 
 ## 1. Visão Geral das Camadas
 
