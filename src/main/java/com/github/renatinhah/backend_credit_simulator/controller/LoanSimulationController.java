@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/simulations")
 @RequiredArgsConstructor
@@ -24,4 +26,11 @@ public class LoanSimulationController {
         LoanSimulationResponse response = loanSimulationService.simulate(request);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/bulk")
+    public ResponseEntity<List<LoanSimulationResponse>> simulateBulk(@Valid @RequestBody List<LoanSimulationRequest> requests) {
+        List<LoanSimulationResponse> responses = loanSimulationService.simulateBulk(requests);
+        return ResponseEntity.ok(responses);
+    }
+
 }

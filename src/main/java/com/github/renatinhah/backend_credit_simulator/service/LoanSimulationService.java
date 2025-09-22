@@ -12,7 +12,12 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service
 public class LoanSimulationService {
@@ -82,5 +87,30 @@ public class LoanSimulationService {
                 .totalInterest(details.getTotalInterest())
                 .build();
     }
+
+    public List<LoanSimulationResponse> simulateBulk(List<LoanSimulationRequest> requests) {
+        ExecutorService executor = Executors.newFixedThreadPool(
+                Runtime.getRuntime().availableProcessors()
+        );
+
+        try {
+            List<CompletableFuture<LoanSimulationResponse>> futures = requests.stream()
+                    .map(req -> CompletableFuture.supplyAsync(() -> {
+                        try {
+                            return simulate(req);
+                        } catch (LoanSimulationException e) {
+                            throw new CompletionException(e);
+                        }
+                    }, executor))
+                    .toList();
+
+            return futures.stream()
+                    .map(CompletableFuture::join)
+                    .toList();
+        } finally {
+            executor.shutdown();
+        }
+    }
+
 
 }
