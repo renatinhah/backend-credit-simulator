@@ -1,7 +1,8 @@
 # Arquitetura Proposta
 
-![Exemplo de requisição e resposta no
-Postman](docs/imagens/diagrama_em_camadas.png)
+![Diagrama em camadas](docs/imagens/diagrama_em_camadas.png)
+
+![Diagrama em camadas mais completo](docs/imagens/Diagrama completo _ Mermaid Chart-2025-09-22-150525.png)
 
 ## 1. Visão Geral das Camadas
 
