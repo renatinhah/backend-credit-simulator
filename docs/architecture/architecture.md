@@ -1,7 +1,9 @@
 # Arquitetura Proposta
+1# 
+![Exemplo Diagrama em camadas](../imagens/diagrama_em_camadas.png)
 
-![Exemplo de requisição e resposta no
-Postman](docs/imagens/diagrama_em_camadas.png)
+2#
+![Exemplo Diagrama em camadas mais completo](../imagens/diagrama_camadas_completo.png)
 
 ## 1. Visão Geral das Camadas
 
